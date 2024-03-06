@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAuthInput } from './dto/create-auth.input';
-import { UpdateAuthInput } from './dto/update-auth.input';
+import { UserService } from 'src/user/user.service';
+import { LoginUserInput } from './dto/login-user.input';
 
 @Injectable()
 export class AuthService {
-  create(createAuthInput: CreateAuthInput) {
-    return 'This action adds a new auth';
-  }
+     constructor(private userService: UserService) { }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+     async validate(username: string, password: string) {
+          let user = await this.userService.findOne(username)
+          if (user && user.password == password) {
+               return user
+          }
+          return null
+     }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+     async login(loginUserInput: LoginUserInput) {
+          let { password, ...user } = await this.userService.findOne(loginUserInput.username)
 
-  update(id: number, updateAuthInput: UpdateAuthInput) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
+          return {
+               access_token: "JWt",
+               user
+          }
+     }
 }
