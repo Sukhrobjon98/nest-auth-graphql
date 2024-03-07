@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import path, { join } from 'path';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [UserModule, AuthModule, ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRootAsync({
@@ -23,6 +24,10 @@ import path, { join } from 'path';
   }), GraphQLModule.forRoot({
     driver: ApolloDriver,
     autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+  }), JwtModule.register({
+    secret: 'secret',
+    signOptions: { expiresIn: '30s' },
+    global: true
   })],
 
 })

@@ -10,13 +10,14 @@ export class UserService {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) { }
 
   async findOne(username: string): Promise<User> {
-    let user = this.userRepository.findOneByOrFail({ username })
+    let user = this.userRepository.findOne({ where: { username } })
     return user
 
   }
 
   async create(createUserInput: CreateUserInput): Promise<User> {
-    let user = this.userRepository.create(createUserInput)
+    const user = this.userRepository.create(createUserInput)
+
     return this.userRepository.save(user)
   }
 

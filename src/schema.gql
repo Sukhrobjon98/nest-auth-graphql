@@ -13,21 +13,26 @@ type LoginResponse {
   user: User!
 }
 
+type RegisterResponse {
+  access_token: String!
+  user: User!
+}
+
 type Query {
   users: [User!]!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
   login(loginUserInput: LoginUserInput!): LoginResponse!
+  register(registerUserInput: RegisterUserInput!): RegisterResponse!
 }
 
-input CreateUserInput {
+input LoginUserInput {
   username: String!
   password: String!
 }
 
-input LoginUserInput {
+input RegisterUserInput {
   username: String!
   password: String!
 }
