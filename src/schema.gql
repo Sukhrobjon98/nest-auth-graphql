@@ -20,11 +20,14 @@ type RegisterResponse {
 
 type Query {
   users: [User!]!
+  getMessages: String!
+  getAllMessages: [String!]!
 }
 
 type Mutation {
   login(loginUserInput: LoginUserInput!): LoginResponse!
   register(registerUserInput: RegisterUserInput!): RegisterResponse!
+  createMessage(content: String!): String!
 }
 
 input LoginUserInput {
@@ -35,4 +38,8 @@ input LoginUserInput {
 input RegisterUserInput {
   username: String!
   password: String!
+}
+
+type Subscription {
+  messageCreated: [String!]!
 }
